@@ -37,7 +37,8 @@
 </head>
 <body class="bg-[#020617] text-slate-200 min-h-screen selection:bg-indigo-500/30 overflow-x-hidden custom-scrollbar">
 
-    <!-- Sidebar -->
+    <canvas id="party-lights-canvas" class="fixed inset-0 pointer-events-none z-[99] hidden"></canvas>
+
     <aside class="fixed left-0 top-0 h-full w-72 bg-[#0b0f1a] border-r border-slate-800/40 p-8 flex flex-col gap-10 hidden lg:flex z-50">
         <div class="flex items-center gap-4">
             <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-2xl shadow-indigo-500/20">
@@ -85,14 +86,12 @@
         </div>
     </aside>
 
-    <!-- Main Content -->
     <main class="lg:ml-72 p-6 md:p-12 max-w-6xl mx-auto">
         <header class="mb-10">
             <h2 class="text-4xl font-black text-white tracking-tight mb-2">Subject & Delivery <span class="text-indigo-500">Hub</span></h2>
             <p class="text-slate-400 text-base font-medium">Extracting last 3 subject lines, timestamps, and folders across <span id="header-accounts-count" class="text-indigo-400 font-bold">12</span> master accounts.</p>
         </header>
 
-        <!-- TOP: Commonality Detection & Action triggers -->
         <section id="common-section" class="hidden w-full pb-10">
             <div class="w-full bg-gradient-to-r from-[#0b0f1a] to-[#0f1425] border-t-2 border-indigo-500/60 rounded-[2.5rem] p-8 shadow-2xl flex flex-col justify-between gap-6">
                 <div>
@@ -123,7 +122,6 @@
                     </div>
                 </div>
 
-                <!-- Interactive Preview Trigger: Displayed only if mail landed in Muskan's Account -->
                 <div id="preview-trigger-container" class="hidden animate-slide mt-2 p-4 bg-emerald-500/5 rounded-2xl border border-emerald-500/10 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-emerald-500/15 flex items-center justify-center text-emerald-400 flex-shrink-0">
@@ -143,7 +141,6 @@
         </section>
 
         <div class="flex flex-col gap-8">
-            <!-- TOP: Target Domain Entry -->
             <section class="w-full">
                 <div class="bg-[#0b0f1a] border border-slate-800/60 rounded-[2.5rem] p-8 shadow-2xl relative overflow-hidden">
                     <div class="flex flex-col lg:flex-row gap-8 items-start relative z-10">
@@ -170,7 +167,6 @@
                 </div>
             </section>
 
-            <!-- MIDDLE: Network Feed with Active Spam Filtering control -->
             <section class="w-full">
                 <div class="bg-[#0b0f1a] border border-slate-800/60 rounded-[2.5rem] overflow-hidden shadow-2xl min-h-[450px] flex flex-col">
                     <div class="px-8 py-6 border-b border-slate-800/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/20">
@@ -181,7 +177,6 @@
                             </div>
                         </h3>
                         
-                        <!-- Toggle Button: Show/Hide Spam Emails dynamically -->
                         <button id="toggle-spam-btn" class="hidden flex items-center gap-2 px-4 py-2 bg-slate-900 border border-slate-800 text-xs font-black text-slate-400 hover:text-white hover:border-slate-700/60 rounded-xl transition-all active:scale-95">
                             <i id="toggle-spam-icon" class="fa-solid fa-eye-slash text-slate-500"></i>
                             <span id="toggle-spam-text">Show Spam Mails</span>
@@ -189,7 +184,6 @@
                         </button>
                     </div>
 
-                    <!-- Empty State -->
                     <div id="empty-state" class="flex-grow flex flex-col items-center justify-center py-24 text-center">
                         <div class="w-20 h-20 bg-indigo-500/5 rounded-full flex items-center justify-center mb-6 border border-indigo-500/10">
                             <i class="fa-solid fa-server text-3xl text-indigo-500/30"></i>
@@ -198,7 +192,6 @@
                         <p class="text-xs text-slate-600 font-bold uppercase tracking-widest">Input target to initiate sync</p>
                     </div>
 
-                    <!-- Feed Results Container -->
                     <div id="results-table-container" class="hidden">
                         <div class="overflow-x-auto custom-scrollbar">
                             <table class="w-full text-left border-collapse">
@@ -211,8 +204,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="results-body" class="divide-y divide-slate-800/40">
-                                    <!-- Rows injected dynamically -->
-                                </tbody>
+                                    </tbody>
                             </table>
                         </div>
                     </div>
@@ -221,10 +213,8 @@
         </div>
     </main>
 
-    <!-- HIGH-FIDELITY SECURE MAIL PREVIEW MODAL -->
     <div id="preview-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden opacity-0 transition-all duration-300">
         <div class="bg-[#0b0f1a] border border-slate-800 w-full max-w-4xl rounded-[2rem] shadow-2xl overflow-hidden flex flex-col max-h-[85vh] transform scale-95 transition-all duration-300">
-            <!-- Modal Header -->
             <div class="px-8 py-6 border-b border-slate-800/60 bg-slate-900/20 flex items-center justify-between">
                 <div>
                     <span class="text-[10px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2.5 py-1 rounded-full font-black uppercase tracking-wider">Muskan Sharma Node Audit</span>
@@ -234,7 +224,6 @@
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
-            <!-- Modal Metadata Panel -->
             <div class="px-8 py-4 bg-slate-900/40 border-b border-slate-800/40 flex flex-wrap gap-4 items-center text-xs text-slate-400 font-semibold">
                 <div class="flex items-center gap-2">
                     <span class="text-slate-500">Audited Node:</span>
@@ -250,17 +239,13 @@
                     <i class="fa-solid fa-user-secret"></i> Unopened State Preserved
                 </div>
             </div>
-            <!-- Modal Body Content (Decoded iFrame Viewport) -->
             <div class="flex-grow overflow-y-auto p-8 bg-[#020617] relative min-h-[350px]">
-                <!-- fallback raw body layout -->
                 <div id="modal-body-fallback" class="hidden text-slate-300 whitespace-pre-wrap leading-relaxed font-mono text-sm"></div>
-                <!-- rich sandboxed viewport frame to isolate HTML content styles -->
                 <iframe id="modal-body-frame" class="w-full h-full min-h-[380px] border-0 rounded-2xl bg-white hidden" sandbox="allow-same-origin"></iframe>
             </div>
         </div>
     </div>
 
-    <!-- NOTIFICATION BOX FOR FAILED MUSKAN PREVIEWS -->
     <div id="toast-notification" class="fixed bottom-6 right-6 z-50 transform translate-y-12 opacity-0 transition-all duration-300 pointer-events-none">
         <div class="bg-rose-900/95 border border-rose-500/30 text-rose-100 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 font-semibold text-sm">
             <i class="fa-solid fa-triangle-exclamation text-rose-400 text-lg"></i>
@@ -338,11 +323,112 @@
             toast: document.getElementById('toast-notification'),
             
             // Diagnostics Testing
-            testAudioBtn: document.getElementById('test-audio-btn')
+            testAudioBtn: document.getElementById('test-audio-btn'),
+
+            // Party canvas
+            partyCanvas: document.getElementById('party-lights-canvas')
         };
 
         let lastResults = [];
         let showSpamEmails = false; // Spam hidden by default
+        let partyLightsInterval = null;
+        let partyAnimationId = null;
+
+        // HIGH-FIDELITY PARTY LIGHTS SYSTEM
+        function triggerPartyLights() {
+            const canvas = dom.partyCanvas;
+            const ctx = canvas.getContext('2d');
+            canvas.classList.remove('hidden');
+
+            const resizeCanvas = () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            };
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            const colors = ['#6366f1', '#a855f7', '#ec4899', '#3b82f6', '#10b981', '#f59e0b', '#ef4444'];
+            let beams = [];
+            let particles = [];
+
+            // Generate ambient structural beams rotating from top corners
+            for (let i = 0; i < 6; i++) {
+                beams.push({
+                    x: i % 2 === 0 ? 0 : canvas.width,
+                    y: 0,
+                    angle: Math.random() * Math.PI,
+                    speed: 0.005 + Math.random() * 0.005,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    width: 40 + Math.random() * 60
+                });
+            }
+
+            // Generate drifting celebration ambient particles
+            for (let i = 0; i < 60; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: Math.random() * 4 + 2,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    vx: (Math.random() - 0.5) * 2,
+                    vy: Math.random() * 3 + 1,
+                    alpha: Math.random()
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw theatrical light beams
+                beams.forEach(b => {
+                    b.angle += b.speed;
+                    ctx.save();
+                    ctx.translate(b.x, b.y);
+                    ctx.rotate(b.angle);
+                    
+                    let gradient = ctx.createLinearGradient(0, 0, canvas.width * 0.8, canvas.height * 0.8);
+                    gradient.addColorStop(0, b.color);
+                    gradient.addColorStop(0.2, b.color.replace(')', ', 0.15)'));
+                    gradient.addColorStop(1, 'transparent');
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.moveTo(0, -b.width / 2);
+                    ctx.lineTo(canvas.width * 1.2, -b.width * 2);
+                    ctx.lineTo(canvas.width * 1.2, b.width * 2);
+                    ctx.lineTo(0, b.width / 2);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.restore();
+                });
+
+                // Draw falling color bursts
+                particles.forEach(p => {
+                    p.y += p.vy;
+                    p.x += p.vx;
+                    if (p.y > canvas.height) p.y = -10;
+                    if (p.x > canvas.width) p.x = 0;
+                    if (p.x < 0) p.x = canvas.width;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.globalAlpha = Math.sin(Date.now() * 0.005 + p.alpha) * 0.4 + 0.6;
+                    ctx.fill();
+                });
+                ctx.globalAlpha = 1.0;
+
+                partyAnimationId = requestAnimationFrame(animate);
+            }
+            animate();
+
+            // Self-terminating structural clean-up to prevent performance leak
+            setTimeout(() => {
+                cancelAnimationFrame(partyAnimationId);
+                canvas.classList.add('hidden');
+                window.removeEventListener('resize', resizeCanvas);
+            }, 6000);
+        }
 
         // HIGH-FIDELITY LOUD INTUITIVE BELL CHIME & FEMALE TTS ALERTS
         function playInboxingAlert() {
@@ -393,8 +479,7 @@
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel(); // Stop anything playing previously
 
-                const message = new SpeechSynthesisUtterance("JSG 38  This mail is 100% inbox. Mark As Green
-                                                             ");
+                const message = new SpeechSynthesisUtterance("JSG 38 It is 100% Inbox");
                 message.volume = 1.0;  // Absolute peak volume bounds
                 message.rate = 1.02;   // Crisp dynamic pronunciation rate
                 message.pitch = 1.25;  // Adjust fundamental pitch register for high-fidelity female sound
@@ -427,9 +512,9 @@
 
         // Diagnostic manual tester event listener
         dom.testAudioBtn.addEventListener('click', () => {
-            // Add momentary animation glow effect
             dom.testAudioBtn.classList.add('bg-indigo-500/10', 'text-indigo-400');
             playInboxingAlert();
+            triggerPartyLights(); // Also test party lights on diagnostics test button
             setTimeout(() => {
                 dom.testAudioBtn.classList.remove('bg-indigo-500/10', 'text-indigo-400');
             }, 1000);
@@ -471,7 +556,6 @@
                 return decodeBase64(payload.body.data);
             }
             if (payload.parts) {
-                // Prioritize rich html, then plain text
                 let htmlPart = payload.parts.find(p => p.mimeType === 'text/html');
                 if (htmlPart && htmlPart.body && htmlPart.body.data) {
                     return decodeBase64(htmlPart.body.data);
@@ -480,7 +564,6 @@
                 if (plainPart && plainPart.body && plainPart.body.data) {
                     return decodeBase64(plainPart.body.data);
                 }
-                // Recursive lookup loop
                 for (let part of payload.parts) {
                     let recursiveResult = extractGmailBody(part);
                     if (recursiveResult) return recursiveResult;
@@ -508,13 +591,11 @@
                     const headers = msgData.payload.headers;
                     const subject = headers.find(h => h.name === 'Subject')?.value || "(Empty Subject)";
                     
-                    // Exact local timestamp setups
                     const dateRaw = headers.find(h => h.name === 'Date')?.value || "";
                     const dateObj = new Date(dateRaw);
                     const date = isNaN(dateObj) ? "" : dateObj.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
                     const time = isNaN(dateObj) ? "" : dateObj.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: true });
 
-                    // Raw Content extracts for sandbox previews
                     const snippet = msgData.snippet || "";
                     let parsedBody = "";
                     try {
@@ -523,7 +604,6 @@
                         parsedBody = snippet;
                     }
 
-                    // Retrieve tags/labels to register landing folder pathing
                     const labels = msgData.labelIds || [];
                     let landing = 'OTHER';
                     if (labels.includes('SPAM')) {
@@ -553,7 +633,6 @@
             const accountMaps = results.reduce((acc, curr) => {
                 if (!acc[curr.accName]) acc[curr.accName] = new Set();
                 curr.subjects.forEach(s => {
-                    // STRICT RULE: Only map/count subjects that landed successfully in the INBOX (exclude SPAM)
                     if (s.landing !== 'SPAM') {
                         acc[curr.accName].add(s.subject);
                     }
@@ -591,8 +670,9 @@
                 dom.commonInput.value = topSubject;
                 dom.percent.className = "text-2xl font-black text-emerald-400 italic";
                 
-                // PLAY HIERARCHICAL "DING DONG!! ITS 100% INBOX" AUDIO NOTIFICATION
+                // 100% INBOX TRIGGER: AUDIO NOTIFICATION & FULL SCREEN PARTY LIGHTS
                 playInboxingAlert();
+                triggerPartyLights();
             } else {
                 if (topCount > 1) {
                     dom.commonInput.value = `Partial Match: "${topSubject}"`;
@@ -604,15 +684,12 @@
                 }
             }
 
-            // SHOW THE PREVIEW TRIGGER: If email data is successfully retrieved in Muskan's node (musk9090)
             const muskanAccountName = "musk9090";
             const muskanResult = results.find(item => item.accName === muskanAccountName);
             const hasMuskanMails = muskanResult && muskanResult.subjects && muskanResult.subjects.length > 0;
 
             if (hasMuskanMails) {
                 dom.previewTrigger.classList.remove('hidden');
-                
-                // Adjust description depending on match status
                 if (topCount === totalAccounts) {
                     dom.previewTriggerTitle.textContent = "100% Convergence Match Achieved";
                     dom.previewTriggerDesc.innerHTML = `Payload verified across all network nodes. Preview is pulled strictly from <strong class="text-indigo-400">Muskan Sharma</strong> (musk9090).`;
@@ -624,7 +701,6 @@
                 dom.previewTrigger.classList.add('hidden');
             }
 
-            // Calculate Spam visibility counters to configure toggle visibility
             updateSpamCounterUI();
         }
 
@@ -640,7 +716,6 @@
                 dom.toggleSpamBtn.classList.add('hidden');
             }
 
-            // Sync visual status of spam elements to global view state variables
             spamElements.forEach(el => {
                 if (showSpamEmails) {
                     el.classList.remove('hidden');
@@ -654,7 +729,6 @@
             const row = document.createElement('tr');
             row.className = "hover:bg-indigo-500/[0.03] transition-colors group animate-slide";
             
-            // Highlight Muskan Sharma account specifically in UI
             const isMuskan = (accName === 'musk9090');
             const accountLabel = isMuskan 
                 ? `<span class="text-indigo-400 font-black text-sm tracking-tight flex items-center gap-1.5"><i class="fa-solid fa-star text-xs text-amber-400 animate-pulse"></i>${accName}</span>` 
@@ -727,20 +801,17 @@
             dom.body.appendChild(row);
         }
 
-        // Toggle Spam fold visibility handler
         dom.toggleSpamBtn.addEventListener('click', () => {
             showSpamEmails = !showSpamEmails;
             const spamElements = document.querySelectorAll('.mail-item-spam');
 
             if (showSpamEmails) {
-                // Showing Spam
                 dom.toggleSpamIcon.className = "fa-solid fa-eye text-rose-400 animate-pulse";
                 dom.toggleSpamText.textContent = "Hide Spam Mails";
                 dom.spamCounter.textContent = `${spamElements.length} Revealed`;
                 dom.spamCounter.className = "bg-rose-500/20 text-rose-300 border border-rose-500/30 px-2 py-0.5 rounded text-[10px]";
                 spamElements.forEach(el => el.classList.remove('hidden'));
             } else {
-                // Hiding Spam
                 dom.toggleSpamIcon.className = "fa-solid fa-eye-slash text-slate-500";
                 dom.toggleSpamText.textContent = "Show Spam Mails";
                 dom.spamCounter.textContent = `${spamElements.length} Hidden`;
@@ -749,7 +820,6 @@
             }
         });
 
-        // Trigger network verification pipeline
         dom.sync.addEventListener('click', async () => {
             const domains = dom.input.value.split('\n').filter(d => d.trim() !== '');
             if (domains.length === 0) return;
@@ -760,7 +830,7 @@
             dom.table.classList.remove('hidden');
             dom.clear.classList.remove('hidden');
             dom.commonSec.classList.remove('hidden');
-            dom.previewTrigger.classList.add('hidden'); // Hide preview until check completes
+            dom.previewTrigger.classList.add('hidden'); 
             dom.body.innerHTML = '';
             lastResults = [];
 
@@ -786,7 +856,6 @@
             dom.sync.innerHTML = `<i class="fa-solid fa-bolt-lightning"></i><span class="tracking-widest uppercase">Sync Network</span>`;
         });
 
-        // Show Toast Notification if Muskan Preview is unavailable
         function showToast() {
             dom.toast.classList.remove('translate-y-12', 'opacity-0');
             dom.toast.classList.add('translate-y-0', 'opacity-100');
@@ -796,14 +865,10 @@
             }, 5000);
         }
 
-        // Preview Trigger Handler - STRICTLY targeting Muskan Sharma (musk9090)
         dom.showPreviewBtn.addEventListener('click', () => {
             if (lastResults.length === 0) return;
 
-            // Grab the matching top subject value
             const targetSubject = dom.commonInput.value;
-            
-            // Search inside records SPECIFICALLY for Muskan Sharma's account ("musk9090")
             const muskanAccountName = "musk9090";
             const muskanResult = lastResults.find(item => item.accName === muskanAccountName);
 
@@ -812,8 +877,6 @@
                 return;
             }
 
-            // Find a mail that matches the top common subject.
-            // If none matches (or match is less than 100%), fallback to Muskan's latest retrieved email.
             let matchedEmail = muskanResult.subjects.find(s => s.subject === targetSubject);
             if (!matchedEmail && muskanResult.subjects.length > 0) {
                 matchedEmail = muskanResult.subjects[0];
@@ -824,12 +887,10 @@
                 dom.modalAccount.textContent = "musk9090 (Muskan Sharma)";
                 dom.modalTime.textContent = `${matchedEmail.date} @ ${matchedEmail.time}`;
 
-                // Check if rich HTML content or plain snippet is available
                 if (matchedEmail.body && matchedEmail.body.includes('<')) {
                     dom.modalBodyFallback.classList.add('hidden');
                     dom.modalBodyFrame.classList.remove('hidden');
 
-                    // INJECT CSS BLOCK: Complete prevention of link hover states and click events inside the iframe
                     const disableLinkInteractionsCSS = `
                         <style>
                             a, a *, [href], [onclick], button, input[type="submit"] {
@@ -846,19 +907,16 @@
                     dom.modalBodyFallback.textContent = matchedEmail.body || matchedEmail.snippet || "No HTML body structure parsed.";
                 }
 
-                // Open modal with smooth transitions
                 dom.previewModal.classList.remove('hidden');
                 setTimeout(() => {
                     dom.previewModal.classList.remove('opacity-0');
                     dom.previewModal.querySelector('div').classList.remove('scale-95');
                 }, 50);
             } else {
-                // Muskan's node loaded but does not contain a previewable subject line
                 showToast();
             }
         });
 
-        // Close preview modal controller
         const hidePreviewModal = () => {
             dom.previewModal.classList.add('opacity-0');
             dom.previewModal.querySelector('div').classList.add('scale-95');
